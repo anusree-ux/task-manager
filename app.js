@@ -13,22 +13,29 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
-// In-memory tasks
-let tasks = [];
+let tasks = [
+  {
+    id: 1,
+    name: "Deploy app",
+    priority: "high",
+    status: "todo"
+  }
+];
 
 // Routes
 app.get("/", (req, res) => {
     res.render("index", { tasks });
 });
 
-app.post("/add", (req, res) => {
-    const task = req.body.task;
+app.post('/add', (req, res) => {
+    tasks.push({
+        id: Date.now(),
+        name: req.body.task,
+        priority: "medium",
+        status: "todo"
+    });
 
-    if (task && task.trim() !== "") {
-        tasks.push(task);
-    }
-
-    res.redirect("/");
+    res.redirect('/');
 });
 
 app.post("/delete/:id", (req, res) => {
@@ -40,4 +47,14 @@ app.post("/delete/:id", (req, res) => {
 // ✅ SINGLE listen ONLY
 app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on port ${PORT}`);
+});
+
+app.post('/add', (req, res) => {
+    tasks.push({
+        id: Date.now(),
+        name: req.body.task,
+        priority: "medium",
+        status: "todo"
+    });
+    res.redirect('/');
 });

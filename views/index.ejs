@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Task Manager</title>
+    <title>Task Manager Dashboard</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 
@@ -10,29 +10,41 @@
 
     <div class="container">
 
-        <h1>🚀 Task Manager</h1>
+        <h1>🚀 Task Manager Dashboard</h1>
 
-        <form action="/add" method="POST">
-            <input type="text" name="task" placeholder="Enter a new task" required>
+        <div class="top-bar">
+            <input type="text" placeholder="Search tasks...">
+            <form action="/add" method="POST">
+                <input type="text" name="task" placeholder="New task" required>
+                <button type="submit">+ Add</button>
+            </form>
+        </div>
 
-            <button type="submit">Add Task</button>
-        </form>
+        <div class="board">
 
-        <ul>
-            <% tasks.forEach((task,index)=> { %>
-                <li>
-                    <span>
-                        <%= task %>
-                    </span>
+            <div class="column high">
+                <h2>🔴 High Priority</h2>
+                <% tasks.forEach(task=> { %>
+                    <% if(task.priority==='high' ) { %>
+                        <div class="card">
+                            <p>
+                                <%= task.name %>
+                            </p>
+                            <a href="/delete/<%= task.id %>">Delete</a>
+                        </div>
+                        <% } %>
+                            <% }) %>
+            </div>
 
-                    <form action="/delete/<%= index %>" method="POST">
-                        <button class="delete-btn">
-                            Delete
-                        </button>
-                    </form>
-                </li>
-                <% }) %>
-        </ul>
+            <div class="column medium">
+                <h2>🟡 Medium</h2>
+            </div>
+
+            <div class="column done">
+                <h2>🟢 Completed</h2>
+            </div>
+
+        </div>
 
     </div>
 
