@@ -1,51 +1,131 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Manager Dashboard</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/style.css">
 </head>
 
 <body>
 
     <div class="container">
-
-        <h1>🚀 Task Manager Dashboard</h1>
+        <header class="app-header">
+            <div class="logo">
+                <i class="fa-solid fa-layer-group"></i>
+                <h1>Task Workspace</h1>
+            </div>
+        </header>
 
         <div class="top-bar">
-            <input type="text" placeholder="Search tasks...">
-            <form action="/add" method="POST">
-                <input type="text" name="task" placeholder="New task" required>
-                <button type="submit">+ Add</button>
+            <form action="/add" method="POST" class="add-task-form">
+                <div class="input-group">
+                    <i class="fa-solid fa-plus-circle field-icon"></i>
+                    <input type="text" name="task" placeholder="What needs to be done?" required>
+                </div>
+
+                <div class="select-group">
+                    <select name="priority">
+                        <option value="high">🔴 High Priority</option>
+                        <option value="medium" selected>🟡 Medium Priority</option>
+                        <option value="low">🔵 Low Priority</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-submit">Add Task</button>
             </form>
         </div>
 
-        <div class="board">
+        <main class="board">
 
-            <div class="column high">
-                <h2>🔴 High Priority</h2>
-                <% tasks.forEach(task=> { %>
-                    <% if(task.priority==='high' ) { %>
-                        <div class="card">
-                            <p>
-                                <%= task.name %>
-                            </p>
-                            <a href="/delete/<%= task.id %>">Delete</a>
-                        </div>
-                        <% } %>
-                            <% }) %>
-            </div>
+            <section class="column">
+                <div class="column-header high-header">
+                    <span class="dot red"></span>
+                    <h2>High Priority</h2>
+                    <span class="count">
+                        <%= tasks.filter(t=> t.priority === 'high' && t.status !== 'done').length %>
+                    </span>
+                </div>
+                <div class="card-container">
+                    <% tasks.forEach(task=> { %>
+                        <% if(task.priority==='high' && task.status !=='done' ) { %>
+                            <div class="card priority-high">
+                                <p class="card-text">
+                                    <%= task.name %>
+                                </p>
+                                <div class="card-footer">
+                                    <span class="badge badge-high">High</span>
+                                    <a href="/delete/<%= task.id %>" class="btn-delete" title="Delete Task">
+                                        <i class="fa-regular fa-trash-can"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <% } %>
+                                <% }) %>
+                </div>
+            </section>
 
-            <div class="column medium">
-                <h2>🟡 Medium</h2>
-            </div>
+            <section class="column">
+                <div class="column-header medium-header">
+                    <span class="dot yellow"></span>
+                    <h2>Standard Backlog</h2>
+                    <span class="count">
+                        <%= tasks.filter(t=> (t.priority === 'medium' || t.priority === 'low') && t.status !==
+                            'done').length %>
+                    </span>
+                </div>
+                <div class="card-container">
+                    <% tasks.forEach(task=> { %>
+                        <% if((task.priority==='medium' || task.priority==='low' ) && task.status !=='done' ) { %>
+                            <div class="card priority-<%= task.priority %>">
+                                <p class="card-text">
+                                    <%= task.name %>
+                                </p>
+                                <div class="card-footer">
+                                    <span class="badge badge-<%= task.priority %>">
+                                        <%= task.priority %>
+                                    </span>
+                                    <a href="/delete/<%= task.id %>" class="btn-delete" title="Delete Task">
+                                        <i class="fa-regular fa-trash-can"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <% } %>
+                                <% }) %>
+                </div>
+            </section>
 
-            <div class="column done">
-                <h2>🟢 Completed</h2>
-            </div>
+            <section class="column">
+                <div class="column-header done-header">
+                    <span class="dot green"></span>
+                    <h2>Completed</h2>
+                    <span class="count">
+                        <%= tasks.filter(t=> t.status === 'done').length %>
+                    </span>
+                </div>
+                <div class="card-container">
+                    <% tasks.forEach(task=> { %>
+                        <% if(task.status==='done' ) { %>
+                            <div class="card task-done">
+                                <p class="card-text">
+                                    <%= task.name %>
+                                </p>
+                                <div class="card-footer">
+                                    <span class="badge badge-done">Done</span>
+                                    <a href="/delete/<%= task.id %>" class="btn-delete" title="Delete Task">
+                                        <i class="fa-regular fa-trash-can"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <% } %>
+                                <% }) %>
+                </div>
+            </section>
 
-        </div>
-
+        </main>
     </div>
 
 </body>
