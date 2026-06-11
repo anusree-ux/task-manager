@@ -58,9 +58,12 @@
                                 </p>
                                 <div class="card-footer">
                                     <span class="badge badge-high">High</span>
-                                    <a href="/delete/<%= task.id %>" class="btn-delete" title="Delete Task">
-                                        <i class="fa-regular fa-trash-can"></i>
-                                    </a>
+                                    <div class="actions">
+                                        <a href="/complete/<%= task._id %>" class="btn-action done"
+                                            title="Complete Task"><i class="fa-solid fa-check"></i></a>
+                                        <a href="/delete/<%= task._id %>" class="btn-action delete"
+                                            title="Delete Task"><i class="fa-regular fa-trash-can"></i></a>
+                                    </div>
                                 </div>
                             </div>
                             <% } %>
@@ -88,9 +91,12 @@
                                     <span class="badge badge-<%= task.priority %>">
                                         <%= task.priority %>
                                     </span>
-                                    <a href="/delete/<%= task.id %>" class="btn-delete" title="Delete Task">
-                                        <i class="fa-regular fa-trash-can"></i>
-                                    </a>
+                                    <div class="actions">
+                                        <a href="/complete/<%= task._id %>" class="btn-action done"
+                                            title="Complete Task"><i class="fa-solid fa-check"></i></a>
+                                        <a href="/delete/<%= task._id %>" class="btn-action delete"
+                                            title="Delete Task"><i class="fa-regular fa-trash-can"></i></a>
+                                    </div>
                                 </div>
                             </div>
                             <% } %>
@@ -115,9 +121,10 @@
                                 </p>
                                 <div class="card-footer">
                                     <span class="badge badge-done">Done</span>
-                                    <a href="/delete/<%= task.id %>" class="btn-delete" title="Delete Task">
-                                        <i class="fa-regular fa-trash-can"></i>
-                                    </a>
+                                    <div class="actions">
+                                        <a href="/delete/<%= task._id %>" class="btn-action delete"
+                                            title="Delete Permanent"><i class="fa-regular fa-trash-can"></i></a>
+                                    </div>
                                 </div>
                             </div>
                             <% } %>
